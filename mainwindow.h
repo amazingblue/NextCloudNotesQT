@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QSettings>
+#include <QWidget>
 
 namespace Ui {
 class MainWindow;

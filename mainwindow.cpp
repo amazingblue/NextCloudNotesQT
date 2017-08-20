@@ -1,11 +1,9 @@
+#include <iostream>
+#include <QSettings>
+#include <QWidget>
+#include <QMainWindow>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QSettings>
-#include <iostream>
-#include "restclient-cpp/restclient.h"
-#include "json.hpp"
-
-using json = nlohmann::json;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), settings(new QSettings)
 {
@@ -13,9 +11,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->serverLineEdit->setText(settings->value("credentials/server").toString());
     ui->userLineEdit->setText(settings->value("credentials/user").toString());
     ui->passwordLineEdit->setText(settings->value("credentials/password").toString());
-    auto r = RestClient::get("https://jsonplaceholder.typicode.com/posts/1");
-    auto jsonResponse = json::parse(r.body);
-    std::cout << jsonResponse["title"] << std::endl;
 }
 
 MainWindow::~MainWindow()
