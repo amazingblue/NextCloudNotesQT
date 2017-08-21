@@ -1,9 +1,12 @@
-#include "mainwindow.h"
-#include "noteswindow.h"
+#include "src/common/NextCloudNotes.h"
+#include "src/gui/mainwindow.h"
+#include "src/gui/noteswindow.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
+    qRegisterMetaType<std::vector<Note*>>();
+    qRegisterMetaType<Note>();
     QApplication a(argc, argv);
     a.setOrganizationName("Alberto Luna");
     a.setOrganizationDomain("albertoluna.es");

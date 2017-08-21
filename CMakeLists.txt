@@ -42,14 +42,14 @@ find_package(Qt5Widgets REQUIRED)
 add_subdirectory(3rdparty)
 
 # Tell CMake to create the NextCloudNotes executable
-add_executable(NextCloudNotes WIN32 main.cpp)
+add_executable(NextCloudNotes WIN32 src/main.cpp src/common/NextCloudNotes.cpp src/common/NextCloudNotes.h)
 
 # Notes window
-add_library(noteswindow noteswindow.cpp)
+add_library(noteswindow src/gui/noteswindow.cpp)
 target_link_libraries (noteswindow Qt5::Widgets)
 
 # Main window
-add_library(mainwindow mainwindow.cpp)
+add_library(mainwindow src/gui/mainwindow.cpp)
 target_link_libraries (mainwindow Qt5::Widgets)
 
 target_link_libraries (NextCloudNotes noteswindow mainwindow ${CPR_LIBRARIES})
