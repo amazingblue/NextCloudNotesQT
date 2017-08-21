@@ -14,7 +14,7 @@ class NotesWindow : public QMainWindow
 
 public:
     explicit NotesWindow(QWidget *parent = 0);
-    ~NotesWindow();
+    ~NotesWindow() override;
 
 private slots:
     void on_pushButton_clicked();

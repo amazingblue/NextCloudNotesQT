@@ -39,4 +39,6 @@ lib/
 NexcloudNotes.pro.user
 CMakeLists.txt.user
 mocs_compilation.cpp
-
+.idea/
+NextCloudNotes
+*.cbp

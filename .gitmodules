@@ -1,6 +1,6 @@
 [submodule "3rdparty/cpr"]
 	path = 3rdparty/cpr
-	url = git@github.com:whoshuu/cpr.git
+	url = https://github.com/whoshuu/cpr.git
 [submodule "3rdparty/json"]
 	path = 3rdparty/json
-	url = git@github.com:nlohmann/json.git
+	url = https://github.com/nlohmann/json.git
