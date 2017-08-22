@@ -28,12 +28,14 @@ public:
     ~NotesWindow() override;
 
 private slots:
-    void on_pushButton_clicked();
     void on_settingsButton_clicked();
     void attachNotes(std::vector<Note*>);
+    void on_notesList_currentRowChanged(int);
 
 private:
     Ui::NotesWindow *ui;
+    std::vector<Note*> notes;
+    Note* selectedNote;
 };
 
 #endif // NOTESWINDOW_H
