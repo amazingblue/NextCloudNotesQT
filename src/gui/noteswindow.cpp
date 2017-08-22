@@ -15,16 +15,23 @@ NotesWindow::NotesWindow(QWidget *parent) :
     ui(new Ui::NotesWindow)
 {
     ui->setupUi(this);
-    auto *workerThread = new WorkerThread;
-    connect(workerThread, SIGNAL(resultReady(const std::vector<Note*>)), this, SLOT(attachNotes(const std::vector<Note*>)));
-    workerThread->start();
+    auto *networkWorker = new NetworkWorker;
+    networkWorker->moveToThread(&networkThread);
+    connect(networkWorker, SIGNAL(getNotesReady(const std::vector<Note*>)), this, SLOT(attachNotes(const std::vector<Note*>)));
+    connect(this, SIGNAL(getNotes()), networkWorker, SLOT(on_getNotes()));
+    networkThread.start();
+    emit getNotes();
     new QListWidgetItem("Loading notes...", ui->notesList);
     notes = std::vector<Note*>();
 }
 
-NotesWindow::~NotesWindow()
-{
+NotesWindow::~NotesWindow() {
+    networkThread.quit();
+    networkThread.wait();
     delete ui;
+    for (auto &note : notes) {
+        delete note;
+    }
 }
 
 void NotesWindow::on_settingsButton_clicked() {
@@ -35,14 +42,12 @@ void NotesWindow::on_settingsButton_clicked() {
 void NotesWindow::attachNotes(const std::vector<Note*> notes) {
     ui->notesList->clear();
     this->notes = notes;
-    for (auto &note : notes) {
+    for (const auto &note : notes) {
         new QListWidgetItem(QString::fromStdString(note->title), ui->notesList);
-        std::cout << note->title << '\n';
     }
 }
 
 void NotesWindow::on_notesList_currentRowChanged(int index) {
-    std::cout << index << '\n';
     if (notes.empty()) {
         return;
     }
@@ -53,12 +58,19 @@ void NotesWindow::on_notesList_currentRowChanged(int index) {
     ui->noteTextEdit->setText(QString::fromStdString(selectedNote->content));
 }
 
-void WorkerThread::run() {
+NetworkWorker::NetworkWorker() {
     QSettings settings;
     auto server = settings.value("credentials/server").toString().toStdString();
     auto user = settings.value("credentials/user").toString().toStdString();
     auto password = settings.value("credentials/password").toString().toStdString();
-    NextCloudNotes nextCloudNotes(server, user, password);
-    auto notes = nextCloudNotes.getNotes();
-    emit resultReady(notes);
+    notesClient = new NextCloudNotes(server, user, password);
+}
+
+NetworkWorker::~NetworkWorker() {
+    delete notesClient;
+}
+
+void NetworkWorker::on_getNotes() {
+    auto notes = notesClient->getNotes();
+    emit getNotesReady(notes);
 }
