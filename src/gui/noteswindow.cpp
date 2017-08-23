@@ -41,7 +41,7 @@ NotesWindow::~NotesWindow() {
 }
 
 void NotesWindow::on_settingsButton_clicked() {
-    auto w = new MainWindow;
+    auto w = new MainWindow(this);
     w->show();
 }
 
@@ -56,6 +56,7 @@ void NotesWindow::attachNotes(const std::vector<Note*> notes) {
 void NotesWindow::on_notesList_currentRowChanged(int index) {
     if (notes.empty() || index == -1) {
         ui->saveNoteButton->setDisabled(true);
+        ui->noteTextEdit->setText("");
         selectedNote = nullptr;
         return;
     }
