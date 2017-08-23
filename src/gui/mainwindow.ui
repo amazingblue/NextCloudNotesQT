@@ -11,15 +11,15 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Settings</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLineEdit" name="serverLineEdit">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>22</x>
       <y>50</y>
-      <width>113</width>
+      <width>361</width>
       <height>21</height>
      </rect>
     </property>

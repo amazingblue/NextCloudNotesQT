@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 #include <QMetaType>
+#include <cpr/cpr.h>
+#include <json.hpp>
 
 struct Note {
     int id;
@@ -20,20 +22,24 @@ struct Note {
     bool favorite;
 };
 
-Q_DECLARE_METATYPE(Note);
+Q_DECLARE_METATYPE(Note*);
 Q_DECLARE_METATYPE(std::vector<Note*>);
 
 class NextCloudNotes {
 public:
     NextCloudNotes(std::string& server, std::string& user, std::string& password);
     const std::vector<Note*> getNotes();
-    std::string getUrl();
+    Note* saveNote(Note* note);
 
 private:
+    const std::string BASE_URL = "/index.php/apps/notes/api/v0.2";
     std::string server;
     std::string user;
     std::string password;
-    const std::string BASE_URL = "/index.php/apps/notes/api/v0.2";
+    std::string getUrl();
+    cpr::Authentication getAuth();
+    static nlohmann::json* noteToJSON(Note* note);
+    static Note* jsonToNote(nlohmann::json jsonNote);
 };
 
 

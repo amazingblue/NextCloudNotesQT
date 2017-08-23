@@ -18,9 +18,11 @@ Q_OBJECT
 
 signals:
     void getNotesReady(std::vector<Note*>);
+    void saveNoteReady(Note*);
 
-private slots:
+public slots:
     void on_getNotes();
+    void on_saveNote(Note*);
 
 public:
     explicit NetworkWorker();
@@ -39,17 +41,22 @@ public:
 
 signals:
     void getNotes();
+    void saveNote(Note*);
 
 private slots:
     void on_settingsButton_clicked();
     void attachNotes(std::vector<Note*>);
     void on_notesList_currentRowChanged(int);
+    void on_noteTextEdit_textChanged();
+    void on_saveNoteButton_clicked();
+    void on_noteSaved(Note*);
 
 private:
     QThread networkThread;
     Ui::NotesWindow *ui;
     std::vector<Note*> notes;
     Note* selectedNote;
+    bool noteHasBeenSelected;
 };
 
 #endif // NOTESWINDOW_H

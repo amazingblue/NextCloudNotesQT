@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
     qRegisterMetaType<std::vector<Note*>>();
-    qRegisterMetaType<Note>();
+    qRegisterMetaType<Note*>();
     QApplication a(argc, argv);
     a.setOrganizationName("Alberto Luna");
     a.setOrganizationDomain("albertoluna.es");
